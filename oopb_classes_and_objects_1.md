@@ -94,3 +94,55 @@ This is the syntax to define the method. When we call it, as seen below, the syn
 matz.skate_size = 9
 ```
 
+## attr_accessor
+Ruby has a built-in way of defining getter and setter methods.
+`attr_accessor` takes in symbols as arguments, and will create getter and setter methods of the same name. This makes our code shorter and easier to read
+
+ex: 
+
+```ruby
+class HockeyPlayer
+	attr_accessor :skate_size
+
+end
+```
+
+If we wanted ruby to only create a getter method, we would instead use `attr_reader`. If we wanted ruby to only create a a setter method we would use `attr_writer`
+
+## Referencing and setting instance variables vs. using getters and setters
+
+To reference an instance variable within a method, it can look like this:
+
+```ruby
+	def height
+		puts "Height is #{@height}"
+	end
+```
+
+A better way to do this though, is to remove the @, and reference the getter method of the same name.
+
+```ruby
+	def height
+		puts "Height is #{height}"
+	end
+```
+
+This is better because it would make any changes that we may need to do the code in the future easier. We can make the change in just one place, as opposed to multiple places within the code. 
+
+There is one caveat to that though, and that is to make sure when we are using these getter/setter methods within a method definition, to make sure we are not initialize a new local variable. 
+
+let's say we have a method that can change multiple attributes of an object
+
+```ruby
+class HockeyPlayer
+	attr_accessor :height, :weight
+	
+	 def change_height_and_weight(h, w)
+	 	height = h
+	 	weight = w
+	 end
+end
+```
+Although our intention with `change_height_and_weight` was to set new values to our setter methods `height` and `weight`, Ruby reads this as new local variables being initialized within the `change_height_and_weight` method definition.
+
+To fix this, we should prepend `self` to the setter methods. THis will let ruby know our intention is to call the setter methods.
