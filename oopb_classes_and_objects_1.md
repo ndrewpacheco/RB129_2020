@@ -127,9 +127,9 @@ A better way to do this though, is to remove the @, and reference the getter met
 	end
 ```
 
-This is better because it would make any changes that we may need to do the code in the future easier. We can make the change in just one place, as opposed to multiple places within the code. 
+This is better because is easier to change, and that we may need to do that to the code in the future. We can make the change in just one place, as opposed to multiple places within the code. 
 
-There is one caveat to that though, and that is to make sure when we are using these getter/setter methods within a method definition, to make sure we are not initialize a new local variable. 
+There is one caveat though. We must make sure when we are using these getter/setter methods within a method definition, and not initializing a new local variable. 
 
 let's say we have a method that can change multiple attributes of an object
 
@@ -145,4 +145,15 @@ end
 ```
 Although our intention with `change_height_and_weight` was to set new values to our setter methods `height` and `weight`, Ruby reads this as new local variables being initialized within the `change_height_and_weight` method definition.
 
-To fix this, we should prepend `self` to the setter methods. THis will let ruby know our intention is to call the setter methods.
+To fix this, we should prepend `self` to the setter methods. This will let ruby know our intention is to call the setter methods.
+
+```ruby
+class HockeyPlayer
+	attr_accessor :height, :weight
+	
+	 def change_height_and_weight(h, w)
+	 	self.height = h
+	 	self.weight = w
+	 end
+end
+```
